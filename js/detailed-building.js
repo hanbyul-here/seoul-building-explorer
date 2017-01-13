@@ -57,22 +57,22 @@ var searchScheme = [
   {
     code: 'A3',
     codeValue: '법정동',
-    category: '../assets/data-scheme/buildings/beobjung.json'
+    category: './js/data-scheme/beobjung.json'
   },
   {
     code: 'A6',
     codeValue: '특수지',
-    category: '../assets/data-scheme/buildings/special.json'
+    category: './js/data-scheme/special.json'
   },
   {
     code: 'A8',
     codeValue: '건축물용도',
-    category: '../assets/data-scheme/buildings/usage.json'
+    category: './js/data-scheme/usage.json'
   },
   {
     code: 'A10',
     codeValue: '건축물구조',
-    category: '../assets/data-scheme/buildings/structure.json'
+    category: './js/data-scheme/structure.json'
   },
   {
     code: 'A13',
