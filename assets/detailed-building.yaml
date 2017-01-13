@@ -1,0 +1,81 @@
+import:
+  - https://mapzen.com/carto/refill-style-no-labels/4/refill-style-no-labels.yaml
+
+
+# This code is from original explorer
+# https://github.com/tangrams/explorer/blob/gh-pages/scene.yaml
+global:
+    key_text: ''
+    value_text: ''
+    collide: true
+    filter: |
+        function () {
+          if (global.key_text === 'A3' || global.key_text === 'A6' || global.key_text === 'A8' || global.key_text === 'A10')
+            return global.key_text && global.value_text && feature[global.key_text] && feature[global.key_text].indexOf(global.value_text) > -1;
+
+          if (global.key_text === 'A13' || global.key_text === 'A14' || global.key_text === 'A15' || global.key_text === 'A16'|| global.key_text === 'A17' || global.key_text === 'A18')
+            return global.key_text && global.value_text  &&  feature[global.key_text] && (parseFloat(feature[global.key_text]) > parseFloat(global.value_text));
+        }
+    feature_order: function() { return feature.sort_rank; }
+
+    matching:
+        filter: global.filter
+        draw:
+            lines:
+                interactive: true
+                order: 1000
+                color: red
+                width: 2px
+            polygons:
+                interactive: true
+                order: 3999
+                color: [.3, .0, .0, .5]
+        line-and-polygon-labels:
+            filter: { not: { $geometry: point } }
+            draw:
+                text:
+                    priority: 2
+                    interactive: true
+                    font:
+                        size: 8pt
+                        family: Lucida Grande
+                        fill: white
+
+sources:
+  seoul-buildings:
+    type: GeoJSON
+    url: https://s3.amazonaws.com/odd-tiles/detailed-buildings/{z}/{x}/{y}.geojson
+    min_zoom: 13
+    max_zoom: 15
+
+
+layers:
+  custom-bulidings:
+    data: {source: seoul-buildings}
+    smaller-zoom:
+      filter: { $zoom: { min: 13}}
+      draw:
+        polygons:
+          interactive: true
+          order: 3001
+          # _building_grid:
+          #   visible: false
+          color: gray
+          exturde: false
+      matching: global.matching
+    bigger-zoom:
+      filter: { $zoom: { min: 17 } }
+      draw:
+        polygons:
+          interactive: true
+          order: 3001
+          # style: _building_grid
+          # extrude: |
+          #   function () {
+          #     return (feature['A16']*3 + 10);
+          #   }
+      matching: global.matching
+  # hide buildings from mapzen tile
+  buildings:
+    data: { source: mapzen, layer: buildings }
+    visible: false
