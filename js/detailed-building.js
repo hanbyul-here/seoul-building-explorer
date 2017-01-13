@@ -18,6 +18,9 @@ L.Mapzen.hash({
 
 // adds a tangram event listener
 var scene;
+var tooltip = L.tooltip();
+
+
 map.on('tangramloaded', function(e) {
   console.log(e.tangramLayer);
   scene = e.tangramLayer.scene;
@@ -38,17 +41,41 @@ map.on('tangramloaded', function(e) {
 // geocoder.addTo(map);
 
 
-map.getContainer().addEventListener('mousedown', function (event) {
+map.getContainer().addEventListener('click', function (event) {
   var latlng = map.mouseEventToLatLng(event);
   var pixel = { x: event.clientX, y: event.clientY };
 
   scene.getFeatureAt(pixel).then(function(selection) {
     console.log(selection);
+    if(selection.feature && selection.feature.source_name == 'seoul-buildings') {
+      tooltip.setLatLng(latlng);
+      tooltip.setContent(
+        getObjByCode('A13').codeValue + ': ' + selection.feature.properties.A13 + '<br>' +
+        getObjByCode('A14').codeValue + ': ' + selection.feature.properties.A14 + '<br>' +
+        getObjByCode('A15').codeValue + ': ' + selection.feature.properties.A15 + '<br>' +
+        getObjByCode('A16').codeValue + ': ' + selection.feature.properties.A16 + '<br>' +
+        getObjByCode('A17').codeValue + ': ' + selection.feature.properties.A17 + '<br>' +
+        getObjByCode('A18').codeValue + ': ' + selection.feature.properties.A18);
+      if (!tooltip.isOpen()) {
+        tooltip.addTo(map);
+      }
+    } else {
+      if (tooltip.isOpen()) tooltip.remove();
+    }
 
   });
 });
 
-
+function getObjByCode(pCode) {
+  var obj;
+  for (var i = 0; i<searchScheme.length; i++) {
+    if(searchScheme[i].code ==pCode) {
+      obj = searchScheme[i];
+      break;
+    }
+  }
+  return obj;
+}
 
 var searchScheme = [
   {
