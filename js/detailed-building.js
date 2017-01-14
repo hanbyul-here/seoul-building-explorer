@@ -1,5 +1,6 @@
 var map = L.Mapzen.map('map', {
   scene: 'assets/detailed-building.yaml',
+  minZoom: 14,
   maxBounds: L.latLngBounds(
     L.latLng(37.697, 127.3),
     L.latLng(37.426, 126.683)
@@ -50,12 +51,12 @@ map.getContainer().addEventListener('click', function (event) {
     if(selection.feature && selection.feature.source_name == 'seoul-buildings') {
       tooltip.setLatLng(latlng);
       tooltip.setContent(
-        getObjByCode('A13').codeValue + ': ' + selection.feature.properties.A13 + '<br>' +
-        getObjByCode('A14').codeValue + ': ' + selection.feature.properties.A14 + '<br>' +
-        getObjByCode('A15').codeValue + ': ' + selection.feature.properties.A15 + '<br>' +
-        getObjByCode('A16').codeValue + ': ' + selection.feature.properties.A16 + '<br>' +
-        getObjByCode('A17').codeValue + ': ' + selection.feature.properties.A17 + '<br>' +
-        getObjByCode('A18').codeValue + ': ' + selection.feature.properties.A18);
+        getObjByCode('A13').codeValue.split('(')[0] + ': ' + getTooltipText(getObjByCode('A13'), selection.feature.properties.A13) + '<br>' +
+        getObjByCode('A14').codeValue.split('(')[0] + ': ' + getTooltipText(getObjByCode('A14'), selection.feature.properties.A14) + '<br>' +
+        getObjByCode('A15').codeValue.split('(')[0] + ': ' + getTooltipText(getObjByCode('A15'), selection.feature.properties.A15) + '<br>' +
+        getObjByCode('A16').codeValue.split('(')[0] + ': ' + getTooltipText(getObjByCode('A16'), selection.feature.properties.A16) + '<br>' +
+        getObjByCode('A17').codeValue.split('(')[0] + ': ' + getTooltipText(getObjByCode('A17'), selection.feature.properties.A17) + '<br>' +
+        getObjByCode('A18').codeValue.split('(')[0] + ': ' + getTooltipText(getObjByCode('A18'), selection.feature.properties.A18) );
       if (!tooltip.isOpen()) {
         tooltip.addTo(map);
       }
@@ -65,6 +66,17 @@ map.getContainer().addEventListener('click', function (event) {
 
   });
 });
+
+
+function getTooltipText(obj, string) {
+  if (!string) return '미등록';
+  else {
+    if (obj.formatTooltipText) return obj.formatTooltipText(string);
+    else {
+      return obj.formatText(string).split(' ')[0];
+    }
+  }
+}
 
 function getObjByCode(pCode) {
   var obj;
@@ -108,13 +120,19 @@ var searchScheme = [
     max: 20170101,
     initialValue: '19800101',
     step: 10000,
+    formatTooltipText: function(string) {
+      if (string[4] == 0 && string[6] == 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+ string[5] +' 월' + string[7] + '일';
+      if (string[4] != 0 && string[6] == 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+ string[4] + string[5] +' 월' + string[7] + '일';
+      else if (string[4] == 0 && string[6] != 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+  string[5] +' 월' + string[6] + string[7] + '일';
+      else return string[0] + string[1] + string[2] + string[3] + '년 '+ string[4] + string[5] +' 월' + string[6] + string[7] + '일';
+    },
     formatText: function(string) {
       return string[0] + string[1] + string[2] + string[3] + '년 이후';
     }
   },
   {
     code: 'A14',
-    codeValue: '연면적',
+    codeValue: '연면적(Floor area)',
     min: 50,
     max: 20000,
     initialValue: 3000,
@@ -125,7 +143,7 @@ var searchScheme = [
   },
   {
     code: 'A15',
-    codeValue: '대지면적',
+    codeValue: '대지면적(Land area)',
     min: 100,
     max: 10000,
     initialValue: 3000,
@@ -135,7 +153,7 @@ var searchScheme = [
   },
   {
     code: 'A16',
-    codeValue: '높이 (Height)',
+    codeValue: '높이(Height)',
     min: 1,
     max: 100,
     initialValue: 20,
@@ -152,7 +170,7 @@ var searchScheme = [
     initialValue: 40,
     step: 5,
     formatText: function(string) {
-      return string + '(%) 이상 ';
+      return string + '% 이상 ';
     }
   },
   {
@@ -163,7 +181,7 @@ var searchScheme = [
     initialValue: 50,
     step: 5,
     formatText: function(string) {
-      return string + '이상 (%)';
+      return string + '% 이상';
     }
   }
 ];

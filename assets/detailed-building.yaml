@@ -45,7 +45,7 @@ sources:
   seoul-buildings:
     type: GeoJSON
     url: https://s3.amazonaws.com/odd-tiles/detailed-buildings/{z}/{x}/{y}.geojson
-    min_zoom: 13
+    min_zoom: 14
     max_zoom: 15
 
 
