@@ -1,0 +1,51 @@
+import:
+  - https://mapzen.com/carto/zinc-style-no-labels/5/zinc-style-no-labels.zip
+
+# This code is from original explorer
+# https://github.com/tangrams/explorer/blob/gh-pages/scene.yaml
+global:
+    key_text: ''
+    value_text: ''
+sources:
+
+  seoul-buildings:
+    type: GeoJSON
+    url: https://s3.amazonaws.com/odd-tiles/seoul-building/{z}/{x}/{y}.geojson
+    min_zoom: 14
+    max_zoom: 16
+    scripts: ['./ten-colors.js']
+
+layers:
+  custom-bulidings:
+    data: {source: seoul-buildings}
+    draw:
+      polygons:
+        interactive: true
+        order: 3001
+        exturde: false
+        color: |
+          function () {
+            if(feature['A13']) {
+              var arr = feature['A13'].slice(0, 3);
+              var gap = 201 - parseInt(arr);
+              return globalColor[gap];
+            } else {
+              return 'black'
+            }
+          }
+  buildings:
+    data: { source: mapzen, layer: buildings }
+    visible: false
+
+  labels:
+    data: {source: mapzen, layer: places}
+    draw:
+      text:
+        font:
+          size: '18px'
+          family: Sans Serif
+          fill: whilte
+        text_source: |
+          function () {
+            return feature.name.split('(')[0];
+          }
