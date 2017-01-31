@@ -73,7 +73,7 @@ categoryLegend.onAdd = function(map) {
   var wrapperDiv = L.DomUtil.create('div', 'option-wrapper');
 
   var descriptionDiv = L.DomUtil.create('div', 'desc');
-  descriptionDiv.innerHTML = '<h3>Seoul Building Explorer</h3><p>서울 건물랄랄라 사용승인일자 랄라랄</p>';
+  descriptionDiv.innerHTML = '<h3>Seoul Building Explorer</h3><p>서울 건물</p>';
   wrapperDiv.appendChild(descriptionDiv);
 
   var slider = L.DomUtil.create('div');

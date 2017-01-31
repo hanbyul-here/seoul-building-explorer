@@ -11,8 +11,8 @@ html, body {
 }
 
 .option-wrapper {
-  width: 300px;
-  height: 100px;
+  width: 400px;
+  height: auto;
   background-color: rgba(200, 200, 200, 0.8);
   padding: 10px;
 }
