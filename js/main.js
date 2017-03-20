@@ -1,7 +1,7 @@
 L.Mapzen.apiKey = 'vector-tiles-YFe1Dop';
 
 var map = L.Mapzen.map('map', {
-  minZoom: 14,
+  minZoom: 10,
   maxBounds: L.latLngBounds(
     L.latLng(37.697, 127.3),
     L.latLng(37.426, 126.683)
