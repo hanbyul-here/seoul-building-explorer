@@ -11,8 +11,14 @@ sources:
   seoul-buildings:
     type: GeoJSON
     url: https://s3.amazonaws.com/odd-tiles/seoul-building/{z}/{x}/{y}.geojson
-    min_zoom: 14
-    max_zoom: 16
+    min_display_zoom: 15
+    max_display_zoom: 16
+    scripts: ['./ten-colors.js']
+  seoul-dongs:
+    type: GeoJSON
+    url: './dongs.geojson'
+    min_display_zoom: 12
+    max_display_zoom: 14
     scripts: ['./ten-colors.js']
 
 layers:
@@ -22,7 +28,7 @@ layers:
       polygons:
         interactive: true
         order: 3001
-        exturde: false
+        extrude: false
         color: |
           function () {
             if(feature['A13']) {
@@ -36,6 +42,24 @@ layers:
   buildings:
     data: { source: mapzen, layer: buildings }
     visible: false
+  custom-dongs:
+    data: {source: seoul-dongs}
+    draw:
+      polygons:
+        interactive: true
+        order: 3003
+        extrude: false
+        color: |
+          function () {
+            if(feature['average']) {
+              var val = feature['average'].toString();
+              var arr = val.slice(0, 3);
+              var gap = 201 - parseInt(arr);
+              return globalColor[gap];
+            } else {
+              return 'black'
+            }
+          }
 
   labels:
     data: {source: mapzen, layer: places}

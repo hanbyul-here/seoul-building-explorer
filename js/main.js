@@ -45,7 +45,17 @@ map.on('tangramloaded', function(e) {
         if (tooltip.isOpen()) tooltip.remove();
       }
     } else {
-        if (tooltip.isOpen()) tooltip.remove();
+        if(selection.feature && selection.feature.source_name == 'seoul-dongs') {
+          tooltip.setLatLng(latlng);
+          var formattedYear = selection.feature.properties.average +'년' || '미등록';
+          tooltip.setContent(
+            '평사용승인일자: ' + formattedYear )
+          if (!tooltip.isOpen()) {
+            tooltip.addTo(map);
+          }
+        } else {
+          if (tooltip.isOpen()) tooltip.remove();
+        }
       }
     });
   });
