@@ -6,19 +6,24 @@ import:
 global:
     key_text: ''
     value_text: ''
-sources:
+styles:
+  # Give some transparency to
+  alpha_polygons:
+    base: polygons
+    blend: multiply
 
+sources:
   seoul-buildings:
     type: GeoJSON
     url: https://s3.amazonaws.com/odd-tiles/seoul-building/{z}/{x}/{y}.geojson
     min_display_zoom: 15
-    max_display_zoom: 16
+    max_display_zoom: 18
     scripts: ['./ten-colors.js']
   seoul-dongs:
     type: GeoJSON
     url: './dongs.geojson'
     min_display_zoom: 12
-    max_display_zoom: 14
+    max_display_zoom: 17
     scripts: ['./ten-colors.js']
 
 layers:
@@ -43,11 +48,12 @@ layers:
     data: { source: mapzen, layer: buildings }
     visible: false
   custom-dongs:
-    data: {source: seoul-dongs}
+    data: { source: seoul-dongs }
+    filter: { $zoom: { min: 14, max: 17 } }
     draw:
-      polygons:
+      alpha_polygons:
         interactive: true
-        order: 3003
+        order: 3000
         extrude: false
         color: |
           function () {
@@ -60,7 +66,25 @@ layers:
               return 'black'
             }
           }
-
+  other-dongs:
+    data: { source: seoul-dongs }
+    filter: { $zoom: { min: 12, max: 14 } }
+    draw:
+      polygons:
+        interactive: true
+        order: 3000
+        extrude: false
+        color: |
+          function () {
+            if(feature['average']) {
+              var val = feature['average'].toString();
+              var arr = val.slice(0, 3);
+              var gap = 201 - parseInt(arr);
+              return globalColor[gap];
+            } else {
+              return 'black'
+            }
+          }
   labels:
     data: {source: mapzen, layer: places}
     draw:
