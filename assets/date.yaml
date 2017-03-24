@@ -49,7 +49,7 @@ layers:
     visible: false
   custom-dongs:
     data: { source: seoul-dongs }
-    filter: { $zoom: { min: 14, max: 17 } }
+    filter: { $zoom: { min: 14, max: 16 } }
     draw:
       alpha_polygons:
         interactive: true

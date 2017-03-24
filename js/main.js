@@ -24,6 +24,22 @@ L.Mapzen.hash({
 var scene;
 var tooltip = L.tooltip();
 
+var searchScheme = [{
+  code: 'A3',
+  codeValue: '법정동',
+  category: './js/data-scheme/beobjung.json'
+}, {
+  code: 'A16',
+  codeValue: '높이 (Height)',
+  min: 1,
+  max: 100,
+  initialValue: 20,
+  step: 2,
+  formatText: function(string) {
+    return string + 'm 이상';
+  }
+}]
+
 map.on('tangramloaded', function(e) {
 
   scene = e.tangramLayer.scene;
@@ -37,7 +53,8 @@ map.on('tangramloaded', function(e) {
       if(selection.feature && selection.feature.source_name == 'seoul-buildings') {
         tooltip.setLatLng(latlng);
         tooltip.setContent(
-          '사용승인일자 : ' + formatTooltipText(selection.feature.properties.A13) )
+          '법정동 : ' + selection.feature.properties.A3  + '<br>' +
+          '사용승인일자 : ' + formatTooltipText(selection.feature.properties.A13));
         if (!tooltip.isOpen()) {
           tooltip.addTo(map);
         }
@@ -49,7 +66,8 @@ map.on('tangramloaded', function(e) {
           tooltip.setLatLng(latlng);
           var formattedYear = selection.feature.properties.average +'년' || '미등록';
           tooltip.setContent(
-            '평사용승인일자: ' + formattedYear )
+            '법정동이름: ' +selection.feature.properties.kr_name + '<br>' +
+            '평균사용승인일자: ' + formattedYear )
           if (!tooltip.isOpen()) {
             tooltip.addTo(map);
           }
