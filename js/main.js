@@ -118,8 +118,13 @@ categoryLegend.onAdd = function(map) {
     colorBlock.style.float = 'left';
     colorBlock.style.backgroundColor = viridis[i];
     colorBlock.style.color = 'white';
+    colorBlock.setAttribute('year', i);
     colorBlock.style.textAlign = 'center';
     colorBlock.innerHTML  = 2010 - (i*10) ;
+    colorBlock.addEventListener('click', function () {
+      scene.config.global.age = this.getAttribute('year');
+      scene.rebuild();
+    })
     slider.appendChild(colorBlock);
   }
   wrapperDiv.appendChild(slider);
