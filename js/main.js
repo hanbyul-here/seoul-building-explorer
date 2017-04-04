@@ -2,14 +2,18 @@ L.Mapzen.apiKey = 'vector-tiles-YFe1Dop';
 
 var map = L.Mapzen.map('map', {
   minZoom: 10,
-  maxBounds: L.latLngBounds(
-    L.latLng(37.697, 127.3),
-    L.latLng(37.426, 126.683)
-  ),
+  maxZoom: 17,
+  // maxBounds: L.latLngBounds(
+  //   L.latLng(37.697, 127.3),
+  //   L.latLng(37.426, 126.683)
+  // ),
   tangramOptions: {
     scene: 'assets/date.yaml'
   }
 });
+
+var geocoder = L.Mapzen.geocoder();
+geocoder.addTo(map);
 
 map.setView([37.5749, 126.9761], 15);
 
@@ -107,12 +111,12 @@ categoryLegend.onAdd = function(map) {
   var slider = L.DomUtil.create('div');
   slider.style.height = '30px';
 
-  for (var  i = globalColor.length-1; i > -1; i--) {
+  for (var  i = viridis.length-1; i > -1; i--) {
     var colorBlock = L.DomUtil.create('div');
     colorBlock.style.width = '10%';
     colorBlock.style.paddingTop = '20px';
     colorBlock.style.float = 'left';
-    colorBlock.style.backgroundColor = globalColor[i];
+    colorBlock.style.backgroundColor = viridis[i];
     colorBlock.style.color = 'white';
     colorBlock.style.textAlign = 'center';
     colorBlock.innerHTML  = 2010 - (i*10) ;
