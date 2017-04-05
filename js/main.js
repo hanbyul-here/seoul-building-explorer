@@ -103,6 +103,13 @@ var formatTooltipText = function(string) {
 }
 
 
+var turnOffColorBlocks = function () {
+  var colorBlocks = document.querySelectorAll('.colorblock');
+  for (var i=0; i < colorBlocks.length; i++) {
+    colorBlocks[i].classList.remove('selected');
+  }
+}
+
 // Put category selector on the map
 var categoryLegend = L.control({position: 'topright'});
 
@@ -125,6 +132,9 @@ categoryLegend.onAdd = function(map) {
     colorBlock.setAttribute('year', i);
     colorBlock.innerHTML  = 2010 - (i*10) ;
     colorBlock.addEventListener('click', function () {
+    turnOffColorBlocks();
+    this.classList.add('selected');
+
       scene.config.global.age = this.getAttribute('year');
       loadingDiv.style.visibility = 'visible';
       scene.rebuild().then(function () {
@@ -139,6 +149,7 @@ categoryLegend.onAdd = function(map) {
   resetButton.className +='reset'
   resetButton.innerHTML = 'Show Everything';
   resetButton.addEventListener('click', function () {
+    turnOffColorBlocks();
     scene.config.global.age = null;
     loadingDiv.style.visibility = 'visible';
     scene.rebuild().then(function () {

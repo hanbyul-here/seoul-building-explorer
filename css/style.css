@@ -25,6 +25,11 @@ html, body {
   color: white;
   text-align: center;
   cursor: pointer;
+  outline: 1px solid #ccc;
+}
+
+.selected {
+  outline: 1px solid #fff;
 }
 
 button.reset {
