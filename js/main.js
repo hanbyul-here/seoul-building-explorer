@@ -3,10 +3,6 @@ L.Mapzen.apiKey = 'vector-tiles-YFe1Dop';
 var map = L.Mapzen.map('map', {
   minZoom: 10,
   maxZoom: 17,
-  // maxBounds: L.latLngBounds(
-  //   L.latLng(37.697, 127.3),
-  //   L.latLng(37.426, 126.683)
-  // ),
   tangramOptions: {
     scene: 'assets/date.yaml'
   }
@@ -50,6 +46,16 @@ map.on('tangramloaded', function(e) {
   map.getContainer().addEventListener('click', function (event) {
   var latlng = map.mouseEventToLatLng(event);
   var pixel = { x: event.clientX, y: event.clientY };
+
+  map.on('zoomend', function () {
+    // if(map.getZoom() < 15 ) {
+    //   if (scene.config.global.age) {
+    //     scene.config.global.age = null;
+    //     scene.rebuild();
+    //   }
+    // }
+  });
+
 
   scene.getFeatureAt(pixel).then(function(selection) {
     if (map.getZoom() > 15) {
@@ -103,9 +109,10 @@ var categoryLegend = L.control({position: 'topright'});
 categoryLegend.onAdd = function(map) {
 
   var wrapperDiv = L.DomUtil.create('div', 'option-wrapper');
-
+  var loadingDiv = L.DomUtil.create('div', 'loading');
   var descriptionDiv = L.DomUtil.create('div', 'desc');
   descriptionDiv.innerHTML = '<h3>Seoul Building Explorer</h3><p>서울 건물</p>';
+  wrapperDiv.appendChild(loadingDiv);
   wrapperDiv.appendChild(descriptionDiv);
 
   var slider = L.DomUtil.create('div');
@@ -113,21 +120,32 @@ categoryLegend.onAdd = function(map) {
 
   for (var  i = viridis.length-1; i > -1; i--) {
     var colorBlock = L.DomUtil.create('div');
-    colorBlock.style.width = '10%';
-    colorBlock.style.paddingTop = '20px';
-    colorBlock.style.float = 'left';
+    colorBlock.className += 'colorblock';
     colorBlock.style.backgroundColor = viridis[i];
-    colorBlock.style.color = 'white';
     colorBlock.setAttribute('year', i);
-    colorBlock.style.textAlign = 'center';
     colorBlock.innerHTML  = 2010 - (i*10) ;
     colorBlock.addEventListener('click', function () {
       scene.config.global.age = this.getAttribute('year');
-      scene.rebuild();
+      loadingDiv.style.visibility = 'visible';
+      scene.rebuild().then(function () {
+        loadingDiv.style.visibility = 'hidden';
+      })
+
     })
     slider.appendChild(colorBlock);
   }
   wrapperDiv.appendChild(slider);
+  var resetButton = L.DomUtil.create('button');
+  resetButton.className +='reset'
+  resetButton.innerHTML = 'Show Everything';
+  resetButton.addEventListener('click', function () {
+    scene.config.global.age = null;
+    loadingDiv.style.visibility = 'visible';
+    scene.rebuild().then(function () {
+      loadingDiv.style.visibility = 'hidden';
+    })
+  })
+  wrapperDiv.appendChild(resetButton);
 
   return wrapperDiv;
 }

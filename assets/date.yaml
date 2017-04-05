@@ -1,8 +1,13 @@
 import:
   - https://mapzen.com/carto/zinc-style-no-labels/6/zinc-style-no-labels.zip
 
-# This code is from original explorer
-# https://github.com/tangrams/explorer/blob/gh-pages/scene.yaml
+
+styles:
+  # Give some transparency to polygon
+  alpha_polygons:
+    base: polygons
+    blend: multiply
+
 global:
     text_visible_admin: true
     text_visible_populated_places:  true
@@ -24,6 +29,49 @@ global:
             }
           }
         }
+    zoom_out_filter: |
+      function () {
+        if (!global.age) {
+          return true;
+        } else {
+          if (feature['average']) {
+            var val = feature['average'].toString();
+            var arr = val.slice(0, 3);
+            var age = 201 - parseInt(arr);
+            return (age == global.age);
+          }
+        }
+      }
+    zoom_out_matching:
+      filter: global.zoom_out_filter
+      draw:
+        polygons:
+          color: |
+            function () {
+              if(feature['average']) {
+                var val = feature['average'].toString();
+                var arr = val.slice(0, 3);
+                var age = 201 - parseInt(arr);
+                return viridis[age];
+              } else {
+                return '#333'
+              }
+            }
+    tarnsparent_matching:
+      filter: global.zoom_out_filter
+      draw:
+        alpha_polygons:
+          color: |
+            function () {
+              if(feature['average']) {
+                var val = feature['average'].toString();
+                var arr = val.slice(0, 3);
+                var age = 201 - parseInt(arr);
+                return viridis[age];
+              } else {
+                return '#333'
+              }
+            }
     matching:
         filter: global.filter
         draw:
@@ -50,11 +98,6 @@ global:
                     return '#333'
                   }
                 }
-styles:
-  # Give some transparency to
-  alpha_polygons:
-    base: polygons
-    blend: multiply
 
 sources:
   seoul-buildings:
@@ -74,6 +117,7 @@ sources:
 layers:
   custom-bulidings:
     data: {source: seoul-buildings}
+    matching: global.matching
     draw:
       polygons:
         interactive: true
@@ -82,51 +126,23 @@ layers:
           function () {
             return feature['A16']*5;
           }
-        color: |
-          function () {
-
-              return '#333'
-
-          }
-    matching: global.matching
+        color: '#333'
   buildings:
     data: { source: mapzen, layer: buildings }
     visible: false
   custom-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 13, max: 15 } }
+    matching: global.tarnsparent_matching
     draw:
-      # lines:
-      #   color: |
-      #     function () {
-      #       if(feature['average']) {
-      #         var val = feature['average'].toString();
-      #         var arr = val.slice(0, 3);
-      #         var gap = 201 - parseInt(arr);
-      #         return viridis[gap];
-      #       } else {
-      #         return '#333'
-      #       }
-      #     }
-      #   width: 10px
-      #   order: 3002
       alpha_polygons:
         interactive: true
         order: 350
-        color: |
-          function () {
-            if(feature['average']) {
-              var val = feature['average'].toString();
-              var arr = val.slice(0, 3);
-              var gap = 201 - parseInt(arr);
-              return viridis[gap];
-            } else {
-              return '#333'
-            }
-          }
+        color: '#333'
   other-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 11, max: 13 } }
+    matching: global.zoom_out_matching
     draw:
       lines:
         color: '#ccc'
@@ -135,36 +151,17 @@ layers:
       polygons:
         interactive: true
         order: 1000
-        extrude: false
-        color: |
-          function () {
-            if(feature['average']) {
-              var val = feature['average'].toString();
-              var arr = val.slice(0, 3);
-              var gap = 201 - parseInt(arr);
-              return viridis[gap];
-            } else {
-              return '#333'
-            }
-          }
+        color: '#333'
+
   min-zoom-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 10, max: 11 } }
+    matching: global.zoom_out_matching
     draw:
       polygons:
         interactive: true
         order: 3000
-        color: |
-          function () {
-            if(feature['average']) {
-              var val = feature['average'].toString();
-              var arr = val.slice(0, 3);
-              var gap = 201 - parseInt(arr);
-              return viridis[gap];
-            } else {
-              return '#333'
-            }
-          }
+        color: '#333'
 
   roads:
     data: { source: mapzen, layer: roads }
