@@ -10,12 +10,20 @@ html, body {
   height: 100%;
 }
 
+
 .option-wrapper {
   width: 400px;
   height: auto;
   position: relative;
   background-color: rgba(200, 200, 200, 0.8);
   padding: 10px;
+}
+
+@media all and (max-width: 600px) {
+  .option-wrapper {
+    width: 100%;
+    top: 50px;
+  }
 }
 
 .colorblock {
