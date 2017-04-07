@@ -9,6 +9,7 @@ styles:
     blend: multiply
 
 global:
+    ux_language: 'en'
     text_visible_admin: true
     text_visible_populated_places:  true
     icon_visible_populated_places:  true
@@ -109,7 +110,7 @@ sources:
     scripts: ['./viridis.js']
   seoul-dongs:
     type: GeoJSON
-    url: './dongs.geojson'
+    url: './final-dong.geojson'
     min_display_zoom: 10
     max_display_zoom: 16
     scripts: ['./viridis.js']
