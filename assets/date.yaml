@@ -103,7 +103,7 @@ global:
 sources:
   seoul-buildings:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/seoul-building/{z}/{x}/{y}.geojson
+    url: https://s3.amazonaws.com/odd-tiles/seoul-buildings-final/{z}/{x}/{y}.geojson
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 18

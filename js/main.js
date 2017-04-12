@@ -24,22 +24,6 @@ L.Mapzen.hash({
 var scene;
 var tooltip = L.tooltip();
 
-var searchScheme = [{
-  code: 'A3',
-  codeValue: '법정동',
-  category: './js/data-scheme/beobjung.json'
-}, {
-  code: 'A16',
-  codeValue: '높이 (Height)',
-  min: 1,
-  max: 100,
-  initialValue: 20,
-  step: 2,
-  formatText: function(string) {
-    return string + 'm 이상';
-  }
-}]
-
 map.on('tangramloaded', function(e) {
 
   scene = e.tangramLayer.scene;
@@ -47,23 +31,14 @@ map.on('tangramloaded', function(e) {
   var latlng = map.mouseEventToLatLng(event);
   var pixel = { x: event.clientX, y: event.clientY };
 
-  map.on('zoomend', function () {
-    // if(map.getZoom() < 15 ) {
-    //   if (scene.config.global.age) {
-    //     scene.config.global.age = null;
-    //     scene.rebuild();
-    //   }
-    // }
-  });
-
-
   scene.getFeatureAt(pixel).then(function(selection) {
     if (map.getZoom() > 15) {
       // var parsedFeature = JSON.parse(selection.feature.properties);
       if(selection.feature && selection.feature.source_name == 'seoul-buildings') {
         tooltip.setLatLng(latlng);
+        var dongNames = selection.feature.properties.A4.split(' ');
         tooltip.setContent(
-          '법정동 : ' + selection.feature.properties.A3  + '<br>' +
+          '법정동 : ' +  dongNames[1] +' '+ dongNames[2]  + '<br>' +
           '사용승인일자 : ' + formatTooltipText(selection.feature.properties.A13));
         if (!tooltip.isOpen()) {
           tooltip.addTo(map);
@@ -105,7 +80,7 @@ var formatTooltipText = function(string) {
 
 var turnOffColorBlocks = function () {
   var colorBlocks = document.querySelectorAll('.colorblock');
-  for (var i=0; i < colorBlocks.length; i++) {
+  for (var i = 0, j = colorBlocks.length; i < j; i++) {
     colorBlocks[i].classList.remove('selected');
   }
 }
@@ -125,7 +100,7 @@ categoryLegend.onAdd = function(map) {
   var slider = L.DomUtil.create('div');
   slider.style.height = '30px';
 
-  for (var  i = viridis.length-1; i > -1; i--) {
+  for (var i = viridis.length-1; i > -1; i--) {
     var colorBlock = L.DomUtil.create('div');
     colorBlock.className += 'colorblock';
     colorBlock.style.backgroundColor = viridis[i];
