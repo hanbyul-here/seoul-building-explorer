@@ -34,12 +34,13 @@ map.on('tangramloaded', function(e) {
   scene.getFeatureAt(pixel).then(function(selection) {
     if (map.getZoom() > 15) {
       // var parsedFeature = JSON.parse(selection.feature.properties);
-      if(selection.feature && selection.feature.source_name == 'seoul-buildings') {
+      if(selection.feature && selection.feature.source_name.includes('seoul-buildings')) {
         tooltip.setLatLng(latlng);
-        var dongNames = selection.feature.properties.A4.split(' ');
+        var dongNames = selection.feature.properties.dongName.split(' ');
         tooltip.setContent(
           '법정동 : ' +  dongNames[1] +' '+ dongNames[2]  + '<br>' +
-          '사용승인일자 : ' + formatTooltipText(selection.feature.properties.A13));
+          '번지 : ' +  selection.feature.properties.address  + '<br>' +
+          '사용승인일자 : ' + formatTooltipText(selection.feature.properties.year));
         if (!tooltip.isOpen()) {
           tooltip.addTo(map);
         }
