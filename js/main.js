@@ -101,10 +101,10 @@ categoryLegend.onAdd = function(map) {
   var slider = L.DomUtil.create('div');
   slider.style.height = '30px';
 
-  for (var i = viridis.length-1; i > -1; i--) {
+  for (var i = globalAsset.viridis.length-1; i > -1; i--) {
     var colorBlock = L.DomUtil.create('div');
     colorBlock.className += 'colorblock';
-    colorBlock.style.backgroundColor = viridis[i];
+    colorBlock.style.backgroundColor = globalAsset.viridis[i];
     colorBlock.setAttribute('year', i);
     colorBlock.innerHTML  = 2010 - (i*10) ;
     colorBlock.addEventListener('click', function () {

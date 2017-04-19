@@ -53,22 +53,7 @@ global:
                 var val = feature['average'].toString();
                 var arr = val.slice(0, 3);
                 var age = 201 - parseInt(arr);
-                return viridis[age];
-              } else {
-                return '#333'
-              }
-            }
-    tarnsparent_matching:
-      filter: global.zoom_out_filter
-      draw:
-        alpha_polygons:
-          color: |
-            function () {
-              if(feature['average']) {
-                var val = feature['average'].toString();
-                var arr = val.slice(0, 3);
-                var age = 201 - parseInt(arr);
-                return viridis[age];
+                return globalAsset.viridis[age];
               } else {
                 return '#333'
               }
@@ -93,7 +78,7 @@ global:
                 function () {
                   var arr = feature['year'].slice(0, 3);
                   var age = 201 - parseInt(arr);
-                  return viridis[age];
+                  return globalAsset.viridis[age];
                 }
 sources:
   seoul-buildings:
@@ -102,28 +87,25 @@ sources:
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 18
-    scripts: ['./viridis.js']
+    scripts: ['./globalAsset.js']
   seoul-buildings-2345:
     type: GeoJSON
     url: https://s3.amazonaws.com/odd-tiles/final-buildings-2345/{z}/{x}/{y}.geojson
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 18
-    scripts: ['./viridis.js']
   seoul-buildings-678:
     type: GeoJSON
     url: https://s3.amazonaws.com/odd-tiles/final-buildings-678/{z}/{x}/{y}.geojson
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 18
-    scripts: ['./viridis.js']
   seoul-buildings-901:
     type: GeoJSON
     url: https://s3.amazonaws.com/odd-tiles/final-buildings-901/{z}/{x}/{y}.geojson
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 18
-    scripts: ['./viridis.js']
   seoul-buildings-null:
     type: GeoJSON
     url: https://s3.amazonaws.com/odd-tiles/final-buildings-null/{z}/{x}/{y}.geojson
@@ -135,7 +117,6 @@ sources:
     url: './final-dong.geojson'
     min_display_zoom: 10
     max_display_zoom: 16
-    scripts: ['./viridis.js']
 
 layers:
   buildings-2345:
@@ -185,18 +166,29 @@ layers:
             return feature['h']*5;
           }
         color: '#333'
+  # let's hide buildings from tile
   buildings:
     data: { source: mapzen, layer: buildings }
     visible: false
+
   custom-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 13, max: 15 } }
-    matching: global.tarnsparent_matching
     draw:
       alpha_polygons:
         interactive: true
-        order: 350
-        color: '#333'
+        order: 300
+        color: |
+          function () {
+            if(feature['average']) {
+              var val = feature['average'].toString();
+              var arr = val.slice(0, 3);
+              var age = 201 - parseInt(arr);
+              return globalAsset.viridis[age];
+            } else {
+              return '#333'
+            }
+          }
   other-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 11, max: 13 } }
