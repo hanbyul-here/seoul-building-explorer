@@ -43,6 +43,21 @@ global:
           }
         }
       }
+    tarnasparent_matching:
+      filter: global.zoom_out_filter
+      draw:
+        alpha_polygons:
+          color: |
+            function () {
+              if(feature['average']) {
+                var val = feature['average'].toString();
+                var arr = val.slice(0, 3);
+                var age = 201 - parseInt(arr);
+                return globalAsset.viridis[age];
+              } else {
+                return '#333'
+              }
+            }
     zoom_out_matching:
       filter: global.zoom_out_filter
       draw:
@@ -174,21 +189,12 @@ layers:
   custom-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 13, max: 15 } }
+    matcihing: global.tarnasparent_matching
     draw:
       alpha_polygons:
         interactive: true
         order: 300
-        color: |
-          function () {
-            if(feature['average']) {
-              var val = feature['average'].toString();
-              var arr = val.slice(0, 3);
-              var age = 201 - parseInt(arr);
-              return globalAsset.viridis[age];
-            } else {
-              return '#333'
-            }
-          }
+        color: '#333'
   other-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 11, max: 13 } }
