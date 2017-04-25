@@ -37,10 +37,15 @@ map.on('tangramloaded', function(e) {
       if(selection.feature && selection.feature.source_name.includes('seoul-buildings')) {
         tooltip.setLatLng(latlng);
         var dongNames = selection.feature.properties.dongName.split(' ');
-        tooltip.setContent(
-          '법정동 : ' +  dongNames[1] +' '+ dongNames[2]  + '<br>' +
-          '번지 : ' +  selection.feature.properties.address  + '<br>' +
-          '사용승인일자 : ' + formatTooltipText(selection.feature.properties.year));
+        var tooltipContentText = '';
+        if (globalAsset.lang == 'kr') {
+          tooltipContentText = globalAsset.dong[globalAsset.lang]+' : ' +  dongNames[1] +' '+ dongNames[2]  + '<br>' +
+          globalAsset.address[globalAsset.lang]+' : ' +  selection.feature.properties.address  + '<br>' +
+          globalAsset.date[globalAsset.lang]+' : ' + formatTooltipText(selection.feature.properties.year);
+        } else {
+          tooltipContentText = globalAsset.date[globalAsset.lang]+' : ' + formatTooltipText(selection.feature.properties.year);
+        }
+        tooltip.setContent(tooltipContentText);
         if (!tooltip.isOpen()) {
           tooltip.addTo(map);
         }
@@ -50,10 +55,11 @@ map.on('tangramloaded', function(e) {
     } else {
         if(selection.feature && selection.feature.source_name == 'seoul-dongs') {
           tooltip.setLatLng(latlng);
-          var formattedYear = selection.feature.properties.average +'년' || '미등록';
+          var formattedYear = selection.feature.properties.average + globalAsset.yearSuffix[globalAsset.lang] || globalAsset.undefiend[globalAsset.lang];
+          var currentLanguageFeature = globalAsset.lang + '_name';
           tooltip.setContent(
-            '법정동이름: ' +selection.feature.properties.kr_name + '<br>' +
-            '평균사용승인일자: ' + formattedYear )
+            globalAsset.dong[globalAsset.lang]+': ' +selection.feature.properties[currentLanguageFeature] + '<br>' +
+            globalAsset.averageYear[globalAsset.lang]+': ' + formattedYear )
           if (!tooltip.isOpen()) {
             tooltip.addTo(map);
           }
@@ -69,12 +75,19 @@ map.on('tangramloaded', function(e) {
 
 var formatTooltipText = function(string) {
   if (string) {
-    if (string[4] == 0 && string[6] == 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+ string[5] +' 월' + string[7] + '일';
-    if (string[4] != 0 && string[6] == 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+ string[4] + string[5] +' 월' + string[7] + '일';
-    else if (string[4] == 0 && string[6] != 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+  string[5] +' 월' + string[6] + string[7] + '일';
-    else return string[0] + string[1] + string[2] + string[3] + '년 '+ string[4] + string[5] +' 월' + string[6] + string[7] + '일';
+    if (globalAsset.lang == 'kr') {
+      if (string[4] == 0 && string[6] == 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+ string[5] +' 월' + string[7] + '일';
+      if (string[4] != 0 && string[6] == 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+ string[4] + string[5] +' 월' + string[7] + '일';
+      else if (string[4] == 0 && string[6] != 0 ) return string[0] + string[1] + string[2] + string[3] + '년 '+  string[5] +' 월' + string[6] + string[7] + '일';
+      else return string[0] + string[1] + string[2] + string[3] + '년 '+ string[4] + string[5] +' 월' + string[6] + string[7] + '일';
+    } else {
+      if (string[4] == 0 && string[6] == 0 ) return string[5] +'/' + string[7] + ' ' + string[0] + string[1] + string[2] + string[3];
+      if (string[4] != 0 && string[6] == 0 ) return string[4] + string[5] +'/' + string[7] + ' ' + string[0] + string[1] + string[2] + string[3];
+      else if (string[4] == 0 && string[6] != 0 ) return string[5] +'/' + string[6] + string[7] + ' ' + string[0] + string[1] + string[2] + string[3] + '';
+      else return string[4] + string[5] +'/' + string[6] + string[7] + ' ' + string[0] + string[1] + string[2] + string[3] ;
+    }
   } else {
-    return '미등록'
+    return globalAsset.undefiend[globalAsset.lang];
   }
 }
 
