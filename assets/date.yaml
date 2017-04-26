@@ -73,6 +73,23 @@ global:
                 return '#333'
               }
             }
+    point_matching:
+      filter: global.zoom_out_filter
+      draw:
+        points:
+          order: 3000
+          size: 4px
+          collide: false
+          color: |
+            function () {
+              if(feature['year']) {
+                var arr = feature['year'].slice(0, 3);
+                var age = 201 - parseInt(arr);
+                return globalAsset.viridis[age];
+              } else {
+                return '#333'
+              }
+            }
     matching:
         filter: global.filter
         draw:
@@ -127,6 +144,21 @@ sources:
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 18
+  seoul-buildings-centroid-2345:
+    type: GeoJSON
+    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-2345/{z}/{x}/{y}.geojson
+    min_zoom: 13
+    max_zoom: 14
+  seoul-buildings-centroid-678:
+    type: GeoJSON
+    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-678/{z}/{x}/{y}.geojson
+    min_zoom: 13
+    max_zoom: 14
+  seoul-buildings-centroid-901:
+    type: GeoJSON
+    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-901/{z}/{x}/{y}.geojson
+    min_zoom: 13
+    max_zoom: 14
   seoul-dongs:
     type: GeoJSON
     url: './final-dong.geojson'
@@ -186,9 +218,37 @@ layers:
     data: { source: mapzen, layer: buildings }
     visible: false
 
+  dot-building-2345:
+    data: { source: seoul-buildings-centroid-2345 }
+    filter: { $zoom: { min: 13, max: 15 } }
+    matching: global.point_matching
+    draw:
+      points:
+          order: 3000
+          color: '#ddd'
+          size: 20px
+
+  dot-building-678:
+    data: { source: seoul-buildings-centroid-678 }
+    filter: { $zoom: { min: 13, max: 15 } }
+    matching: global.point_matching
+    draw:
+      points:
+          order: 3000
+          color: '#ddd'
+          size: 20px
+  dot-buildin901:
+    data: { source: seoul-buildings-centroid-901 }
+    filter: { $zoom: { min: 13, max: 15 } }
+    matching: global.point_matching
+    draw:
+      points:
+          order: 3000
+          color: '#ddd'
+          size: 20px
   custom-dongs:
     data: { source: seoul-dongs }
-    filter: { $zoom: { min: 13, max: 15 } }
+    filter: { $zoom: { min: 13, max: 14 } }
     matcihing: global.tarnasparent_matching
     draw:
       alpha_polygons:
