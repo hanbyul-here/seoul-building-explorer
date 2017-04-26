@@ -23,11 +23,9 @@ global:
           if (!global.age) {
             return true;
           } else {
-
-              var arr = feature['year'].slice(0, 3);
-              var age = 201 - parseInt(arr);
-              return (age == global.age)
-
+            var arr = feature['year'].slice(0, 3);
+            var age = 201 - parseInt(arr);
+            return (age == global.age)
           }
         }
     zoom_out_filter: |
@@ -74,7 +72,7 @@ global:
               }
             }
     point_matching:
-      filter: global.zoom_out_filter
+      filter: global.filter
       draw:
         points:
           order: 3000
@@ -226,7 +224,7 @@ layers:
       points:
           order: 3000
           color: '#ddd'
-          size: 20px
+          size: 4px
 
   dot-building-678:
     data: { source: seoul-buildings-centroid-678 }
@@ -236,7 +234,7 @@ layers:
       points:
           order: 3000
           color: '#ddd'
-          size: 20px
+          size: 4px
   dot-buildin901:
     data: { source: seoul-buildings-centroid-901 }
     filter: { $zoom: { min: 13, max: 15 } }
@@ -245,7 +243,7 @@ layers:
       points:
           order: 3000
           color: '#ddd'
-          size: 20px
+          size: 4px
   custom-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 13, max: 14 } }
