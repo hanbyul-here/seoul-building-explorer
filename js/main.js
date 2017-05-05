@@ -27,6 +27,11 @@ var tooltip = L.tooltip();
 map.on('tangramloaded', function(e) {
 
   scene = e.tangramLayer.scene;
+  if(scene.config.global.lang != globalAsset.lang) {
+    scene.config.global.ux_language = '';
+    scene.rebuild();
+  }
+
   map.getContainer().addEventListener('click', function (event) {
   var latlng = map.mouseEventToLatLng(event);
   var pixel = { x: event.clientX, y: event.clientY };
