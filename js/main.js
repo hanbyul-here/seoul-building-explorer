@@ -107,7 +107,7 @@ categoryLegend.onAdd = function(map) {
   var wrapperDiv = L.DomUtil.create('div', 'option-wrapper');
   var loadingDiv = L.DomUtil.create('div', 'loading');
   var descriptionDiv = L.DomUtil.create('div', 'desc');
-  descriptionDiv.innerHTML = '<h3>Seoul Building Explorer</h3><p>서울 건물</p>';
+  descriptionDiv.innerHTML = '<h3>'+ globalAsset.title[globalAsset.lang]+'</h3><p>'+globalAsset.description[globalAsset.lang]+'</p>';
   wrapperDiv.appendChild(loadingDiv);
   wrapperDiv.appendChild(descriptionDiv);
 
@@ -136,7 +136,7 @@ categoryLegend.onAdd = function(map) {
   wrapperDiv.appendChild(slider);
   var resetButton = L.DomUtil.create('button');
   resetButton.className +='reset'
-  resetButton.innerHTML = 'Show Everything';
+  resetButton.innerHTML = globalAsset.show[globalAsset.lang];
   resetButton.addEventListener('click', function () {
     turnOffColorBlocks();
     scene.config.global.age = null;
