@@ -27,10 +27,6 @@ var tooltip = L.tooltip();
 map.on('tangramloaded', function(e) {
 
   scene = e.tangramLayer.scene;
-  if(scene.config.global.lang != globalAsset.lang) {
-    scene.config.global.ux_language = '';
-    scene.rebuild();
-  }
 
   map.getContainer().addEventListener('click', function (event) {
   var latlng = map.mouseEventToLatLng(event);
@@ -123,12 +119,11 @@ categoryLegend.onAdd = function(map) {
     var colorBlock = L.DomUtil.create('div');
     colorBlock.className += 'colorblock';
     colorBlock.style.backgroundColor = globalAsset.viridis[i];
-    colorBlock.setAttribute('year', i);
+    colorBlock.setAttribute('year', (201 - i));
     colorBlock.innerHTML  = 2010 - (i*10) ;
     colorBlock.addEventListener('click', function () {
     turnOffColorBlocks();
     this.classList.add('selected');
-
       scene.config.global.age = this.getAttribute('year');
       loadingDiv.style.visibility = 'visible';
       scene.rebuild().then(function () {
