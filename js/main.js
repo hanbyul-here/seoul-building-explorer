@@ -11,7 +11,7 @@ var map = L.Mapzen.map('map', {
 var geocoder = L.Mapzen.geocoder();
 geocoder.addTo(map);
 
-map.setView([37.5749, 126.9761], 15);
+map.setView([37.5749, 126.9761], 16);
 
 // moves zoom control to the bottom right of the map page
 map.zoomControl.setPosition('bottomright');
@@ -27,6 +27,10 @@ var tooltip = L.tooltip();
 map.on('tangramloaded', function(e) {
 
   scene = e.tangramLayer.scene;
+  if(scene.config.global.ux_language != globalAsset.lang) {
+    scene.config.global.ux_language = globalAsset.lang;
+    scene.rebuild();
+  }
 
   map.getContainer().addEventListener('click', function (event) {
   var latlng = map.mouseEventToLatLng(event);
