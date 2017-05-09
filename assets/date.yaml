@@ -15,6 +15,7 @@ global:
     text_visible_neighbourhoods:    true
     text_visible_neighbourhoods_e:  true
     key_text: ''
+    default_color: '#333'
     age:
     ux_language: 'en'
     filter: |
@@ -135,17 +136,17 @@ sources:
     max_zoom: 16
   seoul-buildings-centroid-2345:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-2345/{z}/{x}/{y}.geojson
+    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-2345-re/{z}/{x}/{y}.geojson
     min_zoom: 13
     max_zoom: 14
   seoul-buildings-centroid-678:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-678/{z}/{x}/{y}.geojson
+    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-678-re/{z}/{x}/{y}.geojson
     min_zoom: 13
     max_zoom: 14
   seoul-buildings-centroid-901:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-901/{z}/{x}/{y}.geojson
+    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-901-re/{z}/{x}/{y}.geojson
     min_zoom: 13
     max_zoom: 14
   seoul-dongs:
@@ -167,7 +168,7 @@ layers:
             if ($zoom < 16) return 0;
             else return feature['h']*5;
           }
-        color: '#333'
+        color: global.default_color
   buildings-678:
     data: {source: seoul-buildings-678}
     matching: global.matching
@@ -180,7 +181,7 @@ layers:
             if ($zoom < 16) return 0;
             else return feature['h']*5;
           }
-        color: '#333'
+        color: global.default_color
   buildings-901:
     data: {source: seoul-buildings-901}
     matching: global.matching
@@ -193,7 +194,7 @@ layers:
             if ($zoom < 16) return 0;
             else return feature['h']*5;
           }
-        color: '#333'
+        color: global.default_color
   buildings-null:
     data: {source: seoul-buildings-null}
     draw:
@@ -205,7 +206,7 @@ layers:
             if ($zoom < 16) return 0;
             else return feature['h']*5;
           }
-        color: '#333'
+        color: global.default_color
   # let's hide buildings from tile
   buildings:
     data: { source: mapzen, layer: buildings }
@@ -218,7 +219,7 @@ layers:
     draw:
       points:
           order: 3000
-          color: '#ddd'
+          color: global.default_color
           size: 4px
 
   dot-building-678:
@@ -228,7 +229,7 @@ layers:
     draw:
       points:
           order: 3000
-          color: '#ddd'
+          color: global.default_color
           size: 4px
   dot-buildin901:
     data: { source: seoul-buildings-centroid-901 }
@@ -237,7 +238,7 @@ layers:
     draw:
       points:
           order: 3000
-          color: '#ddd'
+          color: global.default_color
           size: 4px
   custom-dongs:
     data: { source: seoul-dongs }
@@ -247,7 +248,7 @@ layers:
       alpha_polygons:
         interactive: true
         order: 300
-        color: '#333'
+        color: global.default_color
   other-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 11, max: 13 } }
@@ -260,7 +261,7 @@ layers:
       polygons:
         interactive: true
         order: 1000
-        color: '#333'
+        color: global.default_color
 
   min-zoom-dongs:
     data: { source: seoul-dongs }
@@ -270,7 +271,7 @@ layers:
       polygons:
         interactive: true
         order: 3000
-        color: '#333'
+        color: global.default_color
 
   roads:
     data: { source: mapzen, layer: roads }
