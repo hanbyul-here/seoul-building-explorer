@@ -111,20 +111,20 @@ global:
 sources:
   seoul-buildings-2345:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-2345/{z}/{x}/{y}.geojson.gz
+    url: https://s3.amazonaws.com/odd-tiles/final-gz-2345/{z}/{x}/{y}.geojson
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 16
     scripts: ['./globalAsset.js']
   seoul-buildings-678:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-678/{z}/{x}/{y}.geojson.gz
+    url: https://s3.amazonaws.com/odd-tiles/final-gz-678/{z}/{x}/{y}.geojson
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 16
   seoul-buildings-901:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-901/{z}/{x}/{y}.geojson.gz
+    url: https://s3.amazonaws.com/odd-tiles/final-gz-901/{z}/{x}/{y}.geojson
     min_display_zoom: 15
     min_zoom: 15
     max_zoom: 16
@@ -136,7 +136,7 @@ sources:
     max_zoom: 16
   seoul-buildings-centroid-2345:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-2345-gz-g/{z}/{x}/{y}.geojson.gz
+    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-2345/{z}/{x}/{y}.geojson
     min_zoom: 13
     max_zoom: 14
   seoul-buildings-centroid-678:
