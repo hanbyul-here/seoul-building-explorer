@@ -86,6 +86,16 @@ global:
                 return '#333'
               }
             }
+          outline:
+            color: white
+            width: |
+              function () {
+                if (!global.age) {
+                  return 0;
+                } else {
+                  return 1;
+                }
+              }
     matching:
         filter: global.filter
         draw:

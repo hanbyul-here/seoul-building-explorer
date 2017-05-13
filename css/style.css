@@ -37,7 +37,10 @@ html, body {
 }
 
 .selected {
-  outline: 1px solid #fff;
+  border: 2px solid #fff;
+  box-sizing: border-box;    /* padding-top: 18px; */
+  padding-top: 18px;
+  margin-top: -2px;
 }
 
 button.reset {
