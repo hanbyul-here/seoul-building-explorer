@@ -21,10 +21,21 @@ html, body {
 
 @media all and (max-width: 600px) {
   .option-wrapper {
-    width: 100%;
+    width: calc(100% - 35px);
     top: 50px;
   }
+  h3 {
+    margin-top: 0;
+  }
+  /* temp solution to put geocoder on top of legend on mobile screen */
+  .leaflet-top.leaflet-left {
+    z-index: 3003;
+  }
+  button {
+    border: 1px solid #fff;
+  }
 }
+
 
 .colorblock {
   width: 10%;
