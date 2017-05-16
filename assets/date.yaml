@@ -69,6 +69,33 @@ global:
                 return '#333'
               }
             }
+    min_zoom_matching:
+      filter: global.zoom_out_filter
+      draw:
+        lines:
+          color: |
+            function () {
+              if(feature['average']) {
+                var val = feature['average'].toString();
+                var arr = val.slice(0, 3);
+                var age = 201 - parseInt(arr);
+                return globalAsset.viridis[age];
+              } else {
+                return '#333'
+              }
+            }
+        polygons:
+          color: |
+            function () {
+              if(feature['average']) {
+                var val = feature['average'].toString();
+                var arr = val.slice(0, 3);
+                var age = 201 - parseInt(arr);
+                return globalAsset.viridis[age];
+              } else {
+                return '#333'
+              }
+            }
     point_matching:
       filter: global.filter
       draw:
@@ -276,8 +303,12 @@ layers:
   min-zoom-dongs:
     data: { source: seoul-dongs }
     filter: { $zoom: { min: 10, max: 11 } }
-    matching: global.zoom_out_matching
+    matching: global.min_zoom_matching
     draw:
+      lines:
+        color: global.default_color
+        width: 2px
+        order: 3001
       polygons:
         interactive: true
         order: 3000
