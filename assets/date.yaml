@@ -156,7 +156,7 @@ sources:
     max_zoom: 14
   seoul-buildings-centroid-901:
     type: GeoJSON
-    url: https://s3.amazonaws.com/odd-tiles/final-buildings-centroid-901-re/{z}/{x}/{y}.geojson
+    url: https://s3.amazonaws.com/odd-tiles/final-centroid-gz-901/{z}/{x}/{y}.geojson
     min_zoom: 13
     max_zoom: 14
   seoul-dongs:
