@@ -4,5 +4,6 @@ Seoul Building Explorer shows when more than 700,000 buildings in Seoul were app
 
 ![preview of how it works](https://mapzen-assets.s3.amazonaws.com/images/mapping-seoul-buildings/output-medium.gif)
 
-[Try Seoul Building Explorer here!](hanbyul-here.github.io/seoul-building-explorer)
+[Try Seoul Building Explorer here!](https://hanbyul-here.github.io/seoul-building-explorer/)
+
 
