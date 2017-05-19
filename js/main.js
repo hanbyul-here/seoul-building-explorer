@@ -9,9 +9,6 @@ var map = L.Mapzen.map('map', {
   }
 });
 
-var geocoder = L.Mapzen.geocoder();
-geocoder.addTo(map);
-
 map.setView([37.5749, 126.9761], 16);
 
 // moves zoom control to the bottom right of the map page
@@ -61,7 +58,7 @@ map.on('tangramloaded', function(e) {
     } else {
         if(selection.feature && selection.feature.source_name == 'seoul-dongs') {
           tooltip.setLatLng(latlng);
-          var formattedYear = selection.feature.properties.average + globalAsset.yearSuffix[globalAsset.lang] || globalAsset.undefiend[globalAsset.lang];
+          var formattedYear = selection.feature.properties.average + globalAsset.yearSuffix[globalAsset.lang] || globalAsset.undefined[globalAsset.lang];
           var currentLanguageFeature = globalAsset.lang + '_name';
           tooltip.setContent(
             globalAsset.dong[globalAsset.lang]+': ' +selection.feature.properties[currentLanguageFeature] + '<br>' +
@@ -93,7 +90,7 @@ var formatTooltipText = function(string) {
       else return string[4] + string[5] +'/' + string[6] + string[7] + ' ' + string[0] + string[1] + string[2] + string[3] ;
     }
   } else {
-    return globalAsset.undefiend[globalAsset.lang];
+    return globalAsset.undefined[globalAsset.lang];
   }
 }
 
@@ -156,3 +153,6 @@ categoryLegend.onAdd = function(map) {
 }
 
 categoryLegend.addTo(map);
+
+var geocoder = L.Mapzen.geocoder();
+geocoder.addTo(map);
