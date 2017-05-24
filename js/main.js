@@ -27,7 +27,7 @@ map.on('tangramloaded', function(e) {
   scene = e.tangramLayer.scene;
   if(scene.config.global.ux_language != globalAsset.lang) {
     scene.config.global.ux_language = globalAsset.lang;
-    scene.rebuild();
+    scene.updateConfig();
   }
 
   map.getContainer().addEventListener('click', function (event) {
@@ -128,7 +128,7 @@ categoryLegend.onAdd = function(map) {
     this.classList.add('selected');
       scene.config.global.age = this.getAttribute('year');
       loadingDiv.style.visibility = 'visible';
-      scene.rebuild().then(function () {
+      scene.updateConfig().then(function () {
         loadingDiv.style.visibility = 'hidden';
       })
 
@@ -143,7 +143,7 @@ categoryLegend.onAdd = function(map) {
     turnOffColorBlocks();
     scene.config.global.age = null;
     loadingDiv.style.visibility = 'visible';
-    scene.rebuild().then(function () {
+    scene.updateConfig().then(function () {
       loadingDiv.style.visibility = 'hidden';
     })
   })
