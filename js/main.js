@@ -1,5 +1,3 @@
-L.Mapzen.apiKey = 'vector-tiles-YFe1Dop';
-
 var map = L.Mapzen.map('map', {
   iframeDetection: true,
   minZoom: 10,
@@ -155,5 +153,5 @@ categoryLegend.onAdd = function(map) {
 
 categoryLegend.addTo(map);
 
-var geocoder = L.Mapzen.geocoder();
+var geocoder = L.Mapzen.geocoder('ge-d50cd6f6907b3fa3');
 geocoder.addTo(map);

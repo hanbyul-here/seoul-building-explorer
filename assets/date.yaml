@@ -1,6 +1,6 @@
 import:
-  - https://mapzen.com/carto/zinc-style-no-labels/6/zinc-style-no-labels.zip
-
+  - https://www.nextzen.org/carto/refill-style/11/refill-style.zip
+  - https://www.nextzen.org/carto/refill-style/themes/color-zinc.zip
 
 styles:
   # Give some transparency to polygon
@@ -203,7 +203,7 @@ layers:
         extrude: |
           function () {
             if ($zoom < 16) return 0;
-            else return feature['h']*5;
+            else return feature['h'];
           }
         color: global.default_color
   buildings-678:
@@ -216,7 +216,7 @@ layers:
         extrude: |
           function () {
             if ($zoom < 16) return 0;
-            else return feature['h']*5;
+            else return feature['h'];
           }
         color: global.default_color
   buildings-901:
@@ -229,7 +229,7 @@ layers:
         extrude: |
           function () {
             if ($zoom < 16) return 0;
-            else return feature['h']*5;
+            else return feature['h'];
           }
         color: global.default_color
   buildings-null:
@@ -241,7 +241,7 @@ layers:
         extrude: |
           function () {
             if ($zoom < 16) return 0;
-            else return feature['h']*5;
+            else return feature['h'];
           }
         color: global.default_color
   # let's hide buildings from tile
