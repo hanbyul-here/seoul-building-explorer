@@ -4,7 +4,8 @@ var map = L.Mapzen.map('map', {
   maxZoom: 18,
   attribution: '<a href="https://github.com/hanbyul-here/seoul-building-explorer">GitHub Repo</a>' + ' | ' + '<a href="http://openapi.nsdi.go.kr/nsdi/eios/ServiceDetail.do?svcSe=F&svcId=F010">NSDI</a>' + ' | ' + '<a href="https://openstreetmap.org/copyright">OpenStreetMap</a>, and <a href="https://www.mapzen.com/rights/#services-and-data-sources">others</a>' ,
   tangramOptions: {
-    scene: 'assets/date.yaml'
+    scene: 'assets/date.yaml',
+    apiKey: 'K8CwGT3qTPyWaRKo8o6Nog'
   }
 });
 
