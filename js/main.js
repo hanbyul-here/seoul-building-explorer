@@ -154,5 +154,5 @@ categoryLegend.onAdd = function(map) {
 
 categoryLegend.addTo(map);
 
-var geocoder = L.Mapzen.geocoder('ge-d50cd6f6907b3fa3');
+var geocoder = L.Mapzen.geocoder('ge-5c11caa6fac22390');
 geocoder.addTo(map);
